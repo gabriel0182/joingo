@@ -8,4 +8,4 @@ Feature: Messages, I send a message to a mobile app
         And I open the edit polygon popup
         And I type the new redius
         And I click on Save Circular Geofence
-        Then I get a sucess message confirmation
+        Then I get a sucess message confirmation "The Circular Geofence was saved successfully."

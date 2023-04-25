@@ -29,12 +29,41 @@ class places {
 		cy.wait('@update').its('response.statusCode').should('eq', 200)
 	}
 
-	static getMessageSuccessConfirmation() {
-		cy.get('.successbox').find('li').should('have.text', 'The Circular Geofence was saved successfully.')
+	static getMessageSuccessConfirmation(message) {
+		cy.get('.successbox').find('li').should('have.text', message)
 	}
 
 	static closeMessageSuccessConfirmation() {
 		cy.get('button').contains('Okay').click()
+	}
+
+	static addNewPlace() {
+		cy.get('button[aria-label="Add New Place"]').click()
+	}
+
+	static selectPlaceOption(option) {
+		cy.get('.section').children('.label').contains(option).click()
+	}
+
+	static clickOnMap() {
+		const today = new Date()
+		const seg = today.getSeconds()
+		const min = today.getMinutes()
+		cy.intercept('POST', '**/admin/le/fenceVisits').as('fenceVisits').wait('@fenceVisits')
+		cy.get('[aria-label="Map"]')
+			.get('[style="position: absolute; left: 0px; top: 0px; z-index: 106; width: 100%;"] > div')
+			.click(seg, min, { force: true })
+	}
+
+	static setLocationRequiredFields() {
+		const today = new Date()
+		const seg = today.getSeconds()
+		cy.get('form').find('input[name="name"]').type(`Location Test ${seg}`)
+		cy.get('form').find('input[name="zip"]').scrollIntoView().type(`${seg}101`)
+	}
+
+	static addLocation() {
+		cy.get('button[aria-label="Add Location"]').click()
 	}
 }
 export default places
