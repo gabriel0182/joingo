@@ -1,7 +1,7 @@
-Feature: Messages, I send a message to a mobile app
+Feature: Places, Edit Radius functionality
 
     @login
-    Scenario: Send a test Message
+    Scenario: Test Edit Radius
         Given I select "V2Mobi" as customer
         When I go to Places tab
         And I select a location

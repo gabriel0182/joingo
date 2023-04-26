@@ -65,5 +65,42 @@ class places {
 	static addLocation() {
 		cy.get('button[aria-label="Add Location"]').click()
 	}
+
+	static selectTimeWindow() {
+		cy.get('button[aria-label="Set Time Window"]').click()
+		cy.get('.overlay')
+			.children('ul')
+			.children('li')
+			.then(($els) => {
+				const values = Cypress._.map(Cypress.$.makeArray($els), 'innerText')
+				cy.get('.overlay')
+					.children('ul')
+					.children('li')
+					.each(($el, $index) => {
+						cy.intercept('POST', '**/admin/le/fenceVisits').as('fenceVisits')
+						cy.wrap($el).click()
+						cy.wait('@fenceVisits')
+						cy.wait(1000)
+						if (values[$index] === '12 Hours') {
+							cy.get('.timebox').find('h3').eq(1).should('have.text', 'Past 12 hours.')
+						} else if (values[$index] === 'Past Day') {
+							cy.get('.timebox').find('h3').eq(1).should('have.text', 'Past 24 hours.')
+						} else if (values[$index] === 'Past Week') {
+							cy.get('.timebox').find('h3').eq(1).should('have.text', 'Past 7 days.')
+						} else if (values[$index] === 'Past Month') {
+							cy.get('.timebox').find('h3').eq(1).should('have.text', 'Past 1 months.')
+						} else if (values[$index] === 'Custom') {
+							cy.get('.timebox').find('h3').eq(1).should('have.text', 'Past 1 months.')
+						}
+						cy.get('body').then(($body) => {
+							if ($body.find('#places-time-dialog').length > 0) {
+								cy.get('button[aria-label="Close"]').click()
+							} else {
+								cy.get('button[aria-label="Set Time Window"]').click()
+							}
+						})
+					})
+			})
+	}
 }
 export default places
