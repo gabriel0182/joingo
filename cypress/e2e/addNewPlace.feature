@@ -2,7 +2,7 @@ Feature: Messages, I send a message to a mobile app
 
     @login
     Scenario: Send a test Message
-        Given I select "V2Mobi" as customer
+        Given I select "Cache Creek" as customer
         When I go to Places tab
         And I click on Add a New Places
         And I select "New Location"

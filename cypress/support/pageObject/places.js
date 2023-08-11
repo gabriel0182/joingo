@@ -49,7 +49,6 @@ class places {
 		const today = new Date()
 		const seg = today.getSeconds()
 		const min = today.getMinutes()
-		cy.intercept('POST', '**/admin/le/fenceVisits').as('fenceVisits').wait('@fenceVisits')
 		cy.get('[aria-label="Map"]')
 			.get('[style="position: absolute; left: 0px; top: 0px; z-index: 106; width: 100%;"] > div')
 			.click(seg, min, { force: true })

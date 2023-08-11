@@ -2,7 +2,7 @@ Feature: Messages, I send a message to a mobile app
 
     @login
     Scenario: Send a test Message
-        When I select "V2Mobi" as customer
+        When I select "Cache Creek" as customer
         When I go to Messages tab
         And I select a draft Message
         And I Edit the Message

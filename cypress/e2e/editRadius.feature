@@ -2,7 +2,7 @@ Feature: Places, Edit Radius functionality
 
     @login
     Scenario: Test Edit Radius
-        Given I select "V2Mobi" as customer
+        Given I select "Cache Creek" as customer
         When I go to Places tab
         And I select a location
         And I open the edit polygon popup
