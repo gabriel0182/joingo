@@ -1,22 +1,17 @@
 {
-  "name": "autcypress",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "@bahmutov/cypress-esbuild-preprocessor": "^2.2.0",
-    "cypress": "^12.17.3",
-    "esbuild": "^0.17.12"
-  },
-  "dependencies": {
-    "@badeball/cypress-cucumber-preprocessor": "^15.1.5"
-  },
-  "cypress-cucumber-preprocessor": {
-    "stepDefinitions": "cypress/e2e/**/**/*.js"
-  }
+	"name": "autcypress",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"bs:master": "browserstack-cypress --cf ./browserstack.json run --sync --spec cypress/e2e/*.js"
+	},
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"@bahmutov/cypress-esbuild-preprocessor": "^2.2.0",
+		"cypress": "^12.17.3",
+		"esbuild": "^0.17.12"
+	}
 }
