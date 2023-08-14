@@ -4,3 +4,8 @@ node_modules
 **/cypress/screenshots
 .vscode/settings.json
 **/cypress/report
+npm_install_debug.log
+**/log/build_results.txt
+**/log/usage.log
+**/browserstack-cypress-report.html
+**/browserstack-cypress-report.json
