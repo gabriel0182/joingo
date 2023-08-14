@@ -7,8 +7,8 @@ node_modules
 .vscode/settings.json
 **/cypress/report
 npm_install_debug.log
-**/log/build_results.txt
-**/log/usage.log
+**/build_results.txt
+**/usage.log
 **/browserstack-cypress-report.html
 **/browserstack-cypress-report.json
 **/cypress/fixtures/login.json
