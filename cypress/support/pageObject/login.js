@@ -1,5 +1,6 @@
 class login {
 	static login() {
+		Cypress.session.clearCurrentSessionData()
 		cy.fixture('login.json').then((credentials) => {
 			cy.visit('')
 			cy.get('#auth-username').type(credentials.user)

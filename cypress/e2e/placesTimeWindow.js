@@ -8,7 +8,7 @@ describe('My Login application', () => {
 	})
 
 	it('I go to Places tab', () => {
-		message.verifyCustomer('Cache Creek')
+		message.verifyCustomer('V2Mobi')
 		places.goToPlaces()
 	})
 

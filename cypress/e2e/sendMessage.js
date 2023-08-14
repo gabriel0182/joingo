@@ -3,15 +3,16 @@ import login from '../support/pageObject/login'
 
 describe('My Login application', () => {
 	before(() => {
+		cy.clearAllSessionStorage()
 		login.login()
 	})
 	it('I go to Messages tab', () => {
-		message.verifyCustomer('Cache Creek')
+		message.verifyCustomer('V2Mobi')
 		message.goToMessages()
 	})
 	it('I select and edit a draft Message', () => {
 		message.selectDraftMessage()
-		message.editMessage()
+		message.editMessage('Test_QA')
 	})
 	it('I send the Message', () => {
 		message.sendMessage()

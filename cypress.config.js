@@ -32,6 +32,7 @@ module.exports = defineConfig({
 	watchForFileChanges: false,
 	e2e: {
 		specPattern: 'cypress/e2e/*.js',
-		baseUrl: 'https://master.joingo.com/admin/console/97/#/patrons/default',
+		baseUrl: 'https://master.joingo.com/admin/console/93/',
+		testIsolation: false,
 	},
 })

@@ -14,14 +14,14 @@ class message {
 		cy.get('.myt-GridCell').first().click()
 	}
 
-	static editMessage() {
+	static editMessage(group) {
 		cy.get('.fa-edit').click()
 		cy.get('button').contains('Recipients and Schedule').click()
 		cy.get('.myt-SelectableListMenuFormBtn').eq(3).click()
 		cy.intercept('POST', '**/admin/data/messages/estimateRecipientCount*').as('estimateRecipientCount')
-		cy.get('.myt-SelectableListViewItem').contains('Test Users').scrollIntoView().click()
+		cy.get('.myt-SelectableListViewItem').contains(group).scrollIntoView().click()
 		cy.wait('@estimateRecipientCount')
-		cy.get('.myt-msgs-WizSectionScheduleRepeating').find('.myt-SelectableListMenuFormBtn').first().click()
+		cy.get('.myt-msgs-WizSectionScheduleOnce').find('.myt-Btn').contains('at').click()
 		cy.get('.myt-SelectableListViewItem').contains('Now').click()
 	}
 
