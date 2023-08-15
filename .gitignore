@@ -11,4 +11,3 @@ npm_install_debug.log
 **/usage.log
 **/browserstack-cypress-report.html
 **/browserstack-cypress-report.json
-**/cypress/fixtures/login.json

@@ -8,7 +8,7 @@ module.exports = defineConfig({
 	screenshotOnRunFailure: true,
 	video: true,
 	videoCompression: 10,
-	videoUploadOnPasses: false,
+	videoUploadOnPasses: true,
 	defaultCommandTimeout: 90000,
 	numTestsKeptInMemory: 20,
 	responseTimeout: 40000,
