@@ -1,5 +1,5 @@
-import places from '../support/pageObject/places'
-import login from '../support/pageObject/login'
+import places from '../../support/pageObject/places'
+import login from '../../support/pageObject/login'
 
 describe('My Login application', () => {
 	before(() => {

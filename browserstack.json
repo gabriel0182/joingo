@@ -21,7 +21,7 @@
 		},
 		"package_config_options": {
 			"cypress_options": {
-				"testFiles": "e2e/*.js",
+				"testFiles": "e2e/**/*.js",
 				"chromeWebSecurity": false
 			}
 		},

@@ -9,12 +9,12 @@ module.exports = defineConfig({
 	video: true,
 	videoCompression: 10,
 	videoUploadOnPasses: true,
-	defaultCommandTimeout: 90000,
+	defaultCommandTimeout: 40000,
 	numTestsKeptInMemory: 20,
 	responseTimeout: 40000,
 	requestTimeout: 40000,
-	taskTimeout: 60000,
-	execTimeout: 60000,
+	taskTimeout: 40000,
+	execTimeout: 40000,
 
 	retries: {
 		runMode: 1,
@@ -25,13 +25,14 @@ module.exports = defineConfig({
 
 	env: {
 		TAGS: 'not @ignore',
+		'cypress/globals': true,
 	},
 
-	pageLoadTimeout: 90000,
+	pageLoadTimeout: 30000,
 	chromeWebSecurity: false,
 	watchForFileChanges: false,
 	e2e: {
-		specPattern: 'cypress/e2e/*.js',
+		specPattern: 'cypress/e2e/**/*.js',
 		baseUrl: 'https://master.joingo.com/admin/console/93/',
 		testIsolation: false,
 	},

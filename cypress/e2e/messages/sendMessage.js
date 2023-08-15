@@ -1,5 +1,5 @@
-import message from '../support/pageObject/message'
-import login from '../support/pageObject/login'
+import message from '../../support/pageObject/message'
+import login from '../../support/pageObject/login'
 
 describe('My Login application', () => {
 	before(() => {

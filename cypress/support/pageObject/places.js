@@ -20,7 +20,8 @@ class places {
 	static updateRadius() {
 		const today = new Date()
 		const seg = today.getSeconds()
-		cy.get('input[name="radius"]').clear().type(`${seg}00.${seg}`)
+		cy.get('input[name="radius"]').clear()
+		cy.get('input[name="radius"]').type(`${seg}00.${seg}`)
 	}
 
 	static saveCircularGeofence() {
@@ -49,16 +50,17 @@ class places {
 		const today = new Date()
 		const seg = today.getSeconds()
 		const min = today.getMinutes()
+		// eslint-disable-next-line cypress/no-force
 		cy.get('[aria-label="Map"]')
-			.get('[style="position: absolute; left: 0px; top: 0px; z-index: 106; width: 100%;"] > div')
+			.find('[style="position: absolute; left: 0px; top: 0px; z-index: 106; width: 100%;"] > div')
 			.click(seg, min, { force: true })
 	}
 
 	static setLocationRequiredFields() {
 		const today = new Date()
-		const seg = today.getSeconds()
-		cy.get('form').find('input[name="name"]').type(`Location Test ${seg}`)
-		cy.get('form').find('input[name="zip"]').scrollIntoView().type(`${seg}101`)
+		const mil = today.getMilliseconds()
+		cy.get('form').find('input[name="name"]').type(`Location Test ${mil}`)
+		cy.get('form').find('input[name="zip"]').type(`${mil}101`)
 	}
 
 	static addLocation() {
@@ -76,10 +78,9 @@ class places {
 					.children('ul')
 					.children('li')
 					.each(($el, $index) => {
-						cy.intercept('POST', '**/admin/le/fenceVisits').as('fenceVisits')
+						cy.intercept('**').as('fenceVisits')
 						cy.wrap($el).click()
-						cy.wait('@fenceVisits')
-						cy.wait(1000)
+						cy.wait('@fenceVisits', { timeout: 10000 })
 						if (values[$index] === '12 Hours') {
 							cy.get('.timebox').find('h3').eq(1).should('have.text', 'Past 12 hours.')
 						} else if (values[$index] === 'Past Day') {

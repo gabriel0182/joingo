@@ -19,7 +19,7 @@ class message {
 		cy.get('button').contains('Recipients and Schedule').click()
 		cy.get('.myt-SelectableListMenuFormBtn').eq(3).click()
 		cy.intercept('POST', '**/admin/data/messages/estimateRecipientCount*').as('estimateRecipientCount')
-		cy.get('.myt-SelectableListViewItem').contains(group).scrollIntoView().click()
+		cy.get('.myt-SelectableListViewItem').contains(group).click()
 		cy.wait('@estimateRecipientCount')
 		cy.get('.myt-msgs-WizSectionScheduleOnce').find('.myt-Btn').contains('at').click()
 		cy.get('.myt-SelectableListViewItem').contains('Now').click()
