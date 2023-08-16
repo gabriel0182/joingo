@@ -3,7 +3,6 @@ import login from '../../support/pageObject/login'
 
 describe('My Login application', () => {
 	before(() => {
-		cy.clearAllSessionStorage()
 		login.login()
 	})
 	it('I go to Messages tab', () => {
