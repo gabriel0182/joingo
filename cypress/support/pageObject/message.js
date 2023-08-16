@@ -66,7 +66,13 @@ class message {
 				cy.get('input').first().type(title)
 				cy.get('input').eq(1).type(draft.pushTitle)
 				cy.get('textarea').first().type(draft.pushMessage)
+				cy.get('input[type=file]').first().selectFile('cypress/fixtures/draft.png', {
+					action: 'drag-drop',
+				})
 				cy.get('textarea').eq(1).type(draft.content)
+				cy.get('input[type=file]').last().selectFile('cypress/fixtures/2XPoints.jpg', {
+					action: 'drag-drop',
+				})
 			})
 		})
 	}
