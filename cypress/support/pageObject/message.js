@@ -13,7 +13,7 @@ class message {
 	}
 
 	static selectDraftMessage() {
-		cy.get('.myt-GridCell').first().click()
+		cy.get('.myt-GridCell').eq(1).click()
 	}
 
 	static editMessage(group) {
@@ -95,6 +95,30 @@ class message {
 		cy.get('.myt-interior-dialog').find('button').contains('Delete').click()
 		cy.wait('@delete').its('response.statusCode').should('eq', 200)
 		cy.get('.myt-ListScreenRow').find('.myt-GridCell').contains(templateTitle).should('not.exist')
+	}
+
+	static duplicateDraft() {
+		cy.intercept('POST', '**/admin/data/messages/create?*').as('create')
+		cy.get('.myt-footerbar').find('button').contains('Duplicate').click()
+		cy.wait('@create').its('response.statusCode').should('eq', 200)
+	}
+
+	static verifyDuplicatedDraft() {
+		cy.get('.myt-msgs-ListScreen')
+			.find('.myt-ListScreenRow')
+			.eq(1)
+			.children('div.myt-GridCell')
+			.eq(1)
+			.invoke('text')
+			.then(($text) => {
+				const templateTitle = `Copy of ${$text}`
+				cy.get('.myt-ListScreenRow').find('.myt-GridCell').contains(templateTitle).should('be.visible').click()
+				cy.intercept('POST', '**/admin/data/messages/delete?*').as('delete')
+				cy.get('.myt-footerbar').find('button').contains('Delete').click()
+				cy.get('.myt-interior-dialog').find('button').contains('Delete').click()
+				cy.wait('@delete').its('response.statusCode').should('eq', 200)
+				cy.get('.myt-ListScreenRow').find('.myt-GridCell').contains(templateTitle).should('not.exist')
+			})
 	}
 }
 
