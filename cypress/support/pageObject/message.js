@@ -111,13 +111,9 @@ class message {
 			.eq(1)
 			.invoke('text')
 			.then(($text) => {
-				const templateTitle = `Copy of ${$text}`
-				cy.get('.myt-ListScreenRow').find('.myt-GridCell').contains(templateTitle).should('be.visible').click()
-				cy.intercept('POST', '**/admin/data/messages/delete?*').as('delete')
-				cy.get('.myt-footerbar').find('button').contains('Delete').click()
-				cy.get('.myt-interior-dialog').find('button').contains('Delete').click()
-				cy.wait('@delete').its('response.statusCode').should('eq', 200)
-				cy.get('.myt-ListScreenRow').find('.myt-GridCell').contains(templateTitle).should('not.exist')
+				title = `Copy of ${$text}`
+				this.validateCreatedDraft()
+				this.deleteDraft()
 			})
 	}
 }
