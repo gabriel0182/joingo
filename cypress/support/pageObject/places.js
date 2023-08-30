@@ -3,9 +3,9 @@ class places {
 		cy.get('#myt-DockItem-places').click()
 	}
 
-	static selectLocation() {
+	static selectLocation(location) {
 		cy.get('.twrap').within(() => {
-			cy.get('tbody').children('tr').children('td').contains('Circle').first().should('be.visible').click()
+			cy.get('tbody').children('tr').children('td').contains(location).first().should('be.visible').click()
 		})
 	}
 

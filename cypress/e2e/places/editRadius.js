@@ -11,7 +11,7 @@ describe('My Login application', () => {
 	})
 
 	it('I select a location', () => {
-		places.selectLocation()
+		places.selectLocation('hard Rock')
 	})
 
 	it('I open the edit polygon popup', () => {
