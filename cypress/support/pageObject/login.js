@@ -8,6 +8,23 @@ class login {
 		})
 		cy.get('#auth-btn-login').click()
 	}
+
+	static checkMenuOptions() {
+		cy.intercept('**').as('request')
+		cy.get('.myt-View')
+			.find('*[id^="myt-DockItem-"]')
+			.filter(':visible')
+			.each(($element, $index) => {
+				cy.wrap($element, $index).click()
+				cy.wait('@request')
+				cy.get('.myt-ConsoleModuleStack')
+					.find('div')
+					.filter(':visible')
+					.each(($elem) => {
+						cy.wrap($elem).should('be.visible')
+					})
+			})
+	}
 }
 
 export default login
