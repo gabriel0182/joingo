@@ -5,7 +5,8 @@
 	"main": "index.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"bs:master": "browserstack-cypress --cf ./browserstack.json run --sync --spec cypress/e2e/**/*.js",
+		"bs:master": "browserstack-cypress --cf ./browserstack.json run --sync --config baseUrl=https://master.joingo.com/admin/console/93/ --spec cypress/e2e/**/*.js",
+		"bs:live": "browserstack-cypress --cf ./browserstack.json run --sync --config baseUrl=https://live.joingo.com/admin/console/93/ --spec cypress/e2e/**/*.js",
 		"repeat_test": "npx cypress-repeat run --browser electron --headless -n 5 --spec"
 	},
 	"author": "",
