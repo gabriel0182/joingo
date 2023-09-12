@@ -18,10 +18,10 @@ class login {
 				cy.wrap($element, $index).click()
 				cy.wait('@request')
 				cy.get('.myt-ConsoleModuleStack')
-					.find('div')
+					.find('.myt-NativeConsoleModule')
 					.filter(':visible')
-					.each(($elem) => {
-						cy.wrap($elem).should('be.visible')
+					.each(($elem, $indx) => {
+						cy.wrap($elem, $indx).should('be.visible')
 					})
 			})
 	}
