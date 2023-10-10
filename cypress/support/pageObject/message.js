@@ -8,7 +8,7 @@ class message {
 
 	static goToMessages() {
 		cy.intercept('POST', '**/admin/data/messages/list?*').as('messages')
-		cy.get('#myt-DockItem-patrons').click()
+		cy.get('#myt-DockItem-msgs').click()
 		cy.wait('@messages')
 	}
 
