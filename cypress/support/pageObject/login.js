@@ -25,6 +25,27 @@ class login {
 					})
 			})
 	}
+
+	static checkBuiltDate() {
+		const date = new Date()
+		const month = date.toLocaleString('default', { month: 'short' })
+		const day = date.toLocaleString('en-US', { day: '2-digit' })
+		const year = date.getFullYear()
+		const currentDate = `${month} ${day}, ${year}`
+		const dayBefore = `${month} ${day - 1}, ${year}`
+		cy.intercept('GET', '**/data/**').as('admin').wait('@admin')
+		cy.get('.welcome')
+			.children('.myt-View')
+			.children('.myt-View')
+			.first()
+			.find('.myt-Text')
+			.last()
+			.then(($text) => {
+				const builtDate = $text.text().substring(15, 27)
+				expect(builtDate).to.eql(currentDate)
+				expect(builtDate).not.to.eql(dayBefore)
+			})
+	}
 }
 
 export default login
