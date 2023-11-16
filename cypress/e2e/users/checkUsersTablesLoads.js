@@ -16,6 +16,4 @@ describe('My Login application', () => {
 	})
 
 	it('I select the first user in the users table', () => {})
-
-	it('I select a point the map', () => {})
 })
