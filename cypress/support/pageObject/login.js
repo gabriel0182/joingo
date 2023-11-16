@@ -42,8 +42,15 @@ class login {
 			.last()
 			.then(($text) => {
 				const builtDate = $text.text().substring(15, 27)
-				expect(builtDate).to.eql(currentDate)
-				expect(builtDate).not.to.eql(dayBefore)
+				cy.url({ decode: true }).then(($url) => {
+					if ($url.includes('live')) {
+						cy.log($url.toString())
+						expect(builtDate).to.eql(currentDate)
+						expect(builtDate).not.to.eql(dayBefore)
+					} else if ($url.includes('master')) {
+						cy.log('Velidation only for live console')
+					}
+				})
 			})
 	}
 }
