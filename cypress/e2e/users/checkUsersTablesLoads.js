@@ -15,5 +15,8 @@ describe('My Login application', () => {
 		users.checkPermissionGroupLoads()
 	})
 
-	it('I select the first user in the users table', () => {})
+	it('I select the first user in the users table', () => {
+		users.selectFirstUser()
+		users.checkUserInfo()
+	})
 })
