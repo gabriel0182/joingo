@@ -52,6 +52,12 @@ class users {
 					.invoke('text')
 					.then(($emailField) => {
 						expect($email).to.eqls($emailField)
+						cy.get('.titlebox')
+							.children('h2')
+							.invoke('text')
+							.then(($emailtitle) => {
+								expect($email).to.eqls($emailtitle)
+							})
 					})
 			})
 	}
