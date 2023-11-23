@@ -81,7 +81,7 @@ class places {
 						cy.intercept('**').as('fenceVisits')
 						cy.wrap($el).click()
 						cy.wait('@fenceVisits', { timeout: 10000 })
-						if (values[$index] === '24 Hours') {
+						if (values[$index] === '12 Hours') {
 							cy.get('.timebox').find('h3').eq(1).should('have.text', 'Past 12 hours.')
 						} else if (values[$index] === 'Past Day') {
 							cy.get('.timebox').find('h3').eq(1).should('have.text', 'Past 24 hours.')

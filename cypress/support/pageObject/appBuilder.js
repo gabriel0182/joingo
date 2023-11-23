@@ -111,7 +111,14 @@ class appBuilder {
 		cy.intercept('POST', '**/admin/data/app/list?**').as('list')
 		cy.get('.myt-RootPanel').children('button').contains('Go to').click()
 		cy.get('.myt-ListView').children('.myt-ListItem').contains(' App Chooser').click()
-		cy.wait('@list')
+	}
+
+	static deleteNewApp() {
+		cy.get('.myt-GridCell').contains(name).click()
+		cy.get('.myt-RootPanel').eq(2).find('.myt-footerbar').find('button').contains('Delete').click()
+		cy.intercept('POST', '**/admin/data/app/delete?**').as('delete')
+		cy.get('.myt-interior-dialog').find('button').contains('Delete').click()
+		cy.wait('@delete').its('response.statusCode').should('eq', 200)
 	}
 }
 

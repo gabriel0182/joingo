@@ -13,7 +13,14 @@ describe('My Login application', () => {
 
 	it('I click on New App option', () => {
 		appBuilder.clickOnNewApp()
+	})
+
+	it('I fill out the require info and create the new app', () => {
 		appBuilder.createNewApp()
+	})
+
+	it('I verify the new app was created', () => {
 		appBuilder.backToAppChooser()
+		appBuilder.deleteNewApp()
 	})
 })
