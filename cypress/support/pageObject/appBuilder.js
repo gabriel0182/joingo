@@ -1,3 +1,5 @@
+let name
+
 class appBuilder {
 	static goToAppBuilder() {
 		cy.intercept('POST', '**/admin/data/contentInterface/list*').as('contentInterface')
@@ -47,6 +49,69 @@ class appBuilder {
 					})
 			}
 		})
+	}
+
+	static checkSchemasAndInterfacesOption() {
+		cy.get('.myt-RootPanel').first().find('button').contains('Schemas & Interfaces').click()
+		cy.get('.header').last().children('.myt-Text').should('have.text', 'Schemas & Interfaces')
+		cy.get('.myt-SchemaRow').each(($element, $index) => {
+			cy.wrap($element, $index)
+				.invoke('text')
+				.then(($text) => {
+					expect($element, $index).to.have.text($text)
+				})
+		})
+		cy.get('.header').last().children('.dclose').click()
+	}
+
+	static checkViewActiveApp() {
+		let newUrl
+		cy.url({ decode: true }).then(($url) => {
+			if ($url.includes('live')) {
+				newUrl = 'https://live.joingo.com/admin/data/portal/v2mo/?platform=ios&mode=view&width=414&height=736&appId=87'
+			} else if ($url.includes('master')) {
+				newUrl =
+					'https://master.joingo.com/admin/data/portal/v2mo/?platform=ios&mode=view&width=414&height=736&appId=87'
+			}
+
+			cy.window().then((win) => {
+				cy.stub(win, 'open')
+					.callsFake((url) => {
+						newUrl = url
+					})
+					.as('windowOpen')
+			})
+
+			cy.get('.myt-RootPanel').first().find('button').contains('View Active App').click()
+			cy.get('@windowOpen').should('be.called')
+			Cypress.on('uncaught:exception', () => false)
+			cy.visit(newUrl)
+		})
+	}
+
+	static clickOnNewApp() {
+		cy.get('.myt-RootPanel').first().find('button').contains(' New App').click()
+	}
+
+	static createNewApp() {
+		const date = new Date()
+		const miliSeg = date.getMilliseconds()
+		name = `Automation Testing ${miliSeg}`
+		cy.get('.myt-AppPropertiesDialog').find('.myt-FormInputText').first().type(name)
+		cy.intercept('POST', '**/admin/data/app/create?**').as('appCreate')
+		cy.get('.myt-AppPropertiesDialog').find('button').contains('Create').click()
+		cy.wait('@appCreate').its('response.statusCode').should('eq', 200)
+		cy.get('.myt-expandoheader')
+			.last()
+			.children('.myt-Text')
+			.should('have.text', `Scenes for "${name}" - showing all 2 `)
+	}
+
+	static backToAppChooser() {
+		cy.intercept('POST', '**/admin/data/app/list?**').as('list')
+		cy.get('.myt-RootPanel').children('button').contains('Go to').click()
+		cy.get('.myt-ListView').children('.myt-ListItem').contains(' App Chooser').click()
+		cy.wait('@list')
 	}
 }
 

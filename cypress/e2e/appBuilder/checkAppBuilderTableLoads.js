@@ -9,6 +9,9 @@ describe('My Login application', () => {
 	it('I click on App Builder', () => {
 		message.verifyCustomer('V2Mobi')
 		appBuilder.goToAppBuilder()
+	})
+
+	it('I verify the details app builder option loads', () => {
 		appBuilder.checkEachRow()
 	})
 })
