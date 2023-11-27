@@ -78,7 +78,7 @@ class places {
 					.children('ul')
 					.children('li')
 					.each(($el, $index) => {
-						cy.intercept('**').as('fenceVisits')
+						cy.intercept('POST', '**/admin/le/fenceVisits**').as('fenceVisits')
 						cy.wrap($el).click()
 						cy.wait('@fenceVisits', { timeout: 10000 })
 						if (values[$index] === '12 Hours') {

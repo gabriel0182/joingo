@@ -120,6 +120,37 @@ class appBuilder {
 		cy.get('.myt-interior-dialog').find('button').contains('Delete').click()
 		cy.wait('@delete').its('response.statusCode').should('eq', 200)
 	}
+
+	static openPropertiesOption() {
+		cy.get('.myt-footerbar').find('button').contains('Properties').click()
+		cy.get('.myt-AppPropertiesDialog').find('.header').should('contains.text', 'App Properties')
+		cy.get('.myt-AppPropertiesDialog')
+			.find('.myt-View')
+			.filter(':visible')
+			.each(($element, $index) => {
+				cy.wrap($element, $index).should('be.visible')
+			})
+	}
+
+	static checkPropertiesDialog() {
+		cy.get('.myt-AppChooserGridRow').each(($element, $index) => {
+			if ($index === 0) {
+				cy.wrap($element, $index).focus()
+				cy.wrap($element, $index)
+				this.openPropertiesOption()
+				this.clickOnCancel()
+			} else {
+				cy.wrap($element, $index).click()
+				cy.wrap($element, $index)
+				this.openPropertiesOption()
+				this.clickOnCancel()
+			}
+		})
+	}
+
+	static clickOnCancel() {
+		cy.get('.myt-AppPropertiesDialog').find('.myt-footerbar').children('button').contains('Cancel').click()
+	}
 }
 
 export default appBuilder
