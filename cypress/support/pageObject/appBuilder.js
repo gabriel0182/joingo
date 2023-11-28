@@ -151,6 +151,47 @@ class appBuilder {
 	static clickOnCancel() {
 		cy.get('.myt-AppPropertiesDialog').find('.myt-footerbar').children('button').contains('Cancel').click()
 	}
+
+	static clickOnScenes() {
+		cy.get('.myt-footerbar').find('button').contains('Scenes').click()
+	}
+
+	static openScenesTable() {
+		cy.get('.myt-RootPanel')
+			.eq(2)
+			.find('.myt-Text')
+			.eq(1)
+			.invoke('text')
+			.then(($name) => {
+				this.clickOnScenes()
+				cy.get('.myt-RootPanel').find('.myt-Text').should('contain.text', $name)
+			})
+	}
+
+	static verifyScenesTableLoads() {
+		cy.get('.myt-SceneChooserGridRow').each(($element, $index) => {
+			cy.wrap($element, $index).find('.myt-View').filter(':visible').should('be.visible')
+			cy.wrap($element, $index).find('.myt-GridCell').filter(':visible').should('be.visible')
+		})
+	}
+
+	static checkScenesTable() {
+		cy.get('.myt-AppChooserGridRow').each(($element, $index) => {
+			if ($index === 0) {
+				cy.wrap($element, $index).focus()
+				cy.wrap($element, $index)
+				this.openScenesTable()
+				this.verifyScenesTableLoads()
+				this.backToAppChooser()
+			} else {
+				cy.wrap($element, $index).click()
+				cy.wrap($element, $index)
+				this.openScenesTable()
+				this.verifyScenesTableLoads()
+				this.backToAppChooser()
+			}
+		})
+	}
 }
 
 export default appBuilder
