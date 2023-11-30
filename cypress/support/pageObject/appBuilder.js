@@ -1,4 +1,5 @@
 let name
+let sceneName
 
 class appBuilder {
 	static goToAppBuilder() {
@@ -109,8 +110,8 @@ class appBuilder {
 
 	static backToAppChooser() {
 		cy.intercept('POST', '**/admin/data/app/list?**').as('list')
-		cy.get('.myt-RootPanel').children('button').contains('Go to').click()
-		cy.get('.myt-ListView').children('.myt-ListItem').contains(' App Chooser').click()
+		cy.get('.myt-BaseActionMenuBtn').contains('Go to').click()
+		cy.get('.myt-ListView').children('.myt-ListItem').contains('App Chooser').click()
 	}
 
 	static deleteNewApp() {
@@ -191,6 +192,46 @@ class appBuilder {
 				this.backToAppChooser()
 			}
 		})
+	}
+
+	static AddNewScene() {
+		const date = new Date()
+		const miliSeg = date.getMilliseconds()
+		sceneName = `Automation Scene ${miliSeg}`
+		cy.get('.myt-AppChooserGridRow').first().focus()
+		this.clickOnScenes()
+		cy.get('.myt-RootPanel').find('button').contains('New Scene').click()
+		cy.get('.myt-NewSceneDialog').find('.myt-FormInputText').first().type(sceneName)
+		cy.intercept('POST', '**/admin/data/scenetemplate/create?**').as('sceneTemplate')
+		cy.get('.myt-NewSceneDialog').find('.myt-footerbar').children('button').contains('Create').click()
+		cy.wait('@sceneTemplate').its('response.statusCode').should('eq', 200)
+	}
+
+	static backToSceneChooser() {
+		cy.intercept('GET', '**/upload/V2Mobi/**').as('upload').wait('@upload')
+		cy.reload()
+		cy.url().then(($url) => {
+			if ($url.includes('screen=scenechooser')) {
+				cy.log('We are already on secene chooser screen')
+			} else if ($url.includes('screen=sceneedito')) {
+				cy.get('.myt-header').last().contains('Go to').click()
+				cy.get('.myt-ListView').children('.myt-ListItem').contains('Scene Chooser').click()
+			}
+		})
+	}
+
+	static deteleScene() {
+		this.backToSceneChooser()
+		cy.get('.myt-SceneChooserGridRow')
+			.contains(sceneName)
+			.parent('.myt-SceneChooserGridRow')
+			.find('.myt-ActionMenu')
+			.click()
+		cy.get('.myt-ListView').find('.myt-ListItem').contains('Delete Scene').click()
+		cy.intercept('POST', '**/admin/data/scenetemplate/delete?**').as('deleteScene')
+		cy.get('.myt-interior-dialog').find('.myt-View').children('button').contains('Delete').click()
+		cy.wait('@deleteScene').its('response.statusCode').should('eq', 200)
+		cy.get('.myt-SceneChooserGridRow').contains(sceneName).should('not.exist')
 	}
 }
 
