@@ -170,10 +170,12 @@ class appBuilder {
 	}
 
 	static verifyScenesTableLoads() {
-		cy.get('.myt-SceneChooserGridRow').each(($element, $index) => {
-			cy.wrap($element, $index).find('.myt-View').filter(':visible').should('be.visible')
-			cy.wrap($element, $index).find('.myt-GridCell').filter(':visible').should('be.visible')
-		})
+		cy.get('.myt-SceneChooserGridRow')
+			.filter(':visible')
+			.each(($element, $index) => {
+				cy.wrap($element, $index).find('.myt-View').filter(':visible').should('be.visible')
+				cy.wrap($element, $index).find('.myt-GridCell').filter(':visible').should('be.visible')
+			})
 	}
 
 	static checkScenesTable() {

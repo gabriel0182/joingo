@@ -29,10 +29,10 @@ class login {
 	static checkBuiltDate() {
 		const date = new Date()
 		const month = date.toLocaleString('default', { month: 'short' })
-		const day = date.toLocaleString('en-US', { day: '2-digit' })
+		const day = date.toLocaleString('en-US', { day: 'numeric' })
 		const year = date.getFullYear()
-		const currentDate = `${month} ${day}, ${year}`
-		const dayBefore = `${month} ${day - 1}, ${year}`
+		const currentDate = `${month} ${day}, ${year},`
+		const dayBefore = `${month} ${day - 1}, ${year}.`
 		cy.intercept('GET', '**/data/**').as('admin').wait('@admin')
 		cy.get('.welcome')
 			.children('.myt-View')
