@@ -222,7 +222,7 @@ class appBuilder {
 		})
 	}
 
-	static deteleScene() {
+	static deleteScene() {
 		this.backToSceneChooser()
 		cy.get('.myt-SceneChooserGridRow')
 			.contains(sceneName)
@@ -234,6 +234,29 @@ class appBuilder {
 		cy.get('.myt-interior-dialog').find('.myt-View').children('button').contains('Delete').click()
 		cy.wait('@deleteScene').its('response.statusCode').should('eq', 200)
 		cy.get('.myt-SceneChooserGridRow').contains(sceneName).should('not.exist')
+	}
+
+	static duplicateApp() {
+		cy.get('.myt-AppChooserGridRow').eq(2).click()
+		cy.get('.myt-footerbar').find('button').contains('Duplicate').click()
+		cy.intercept('POST', '**/admin/data/app/copy?**').as('copy')
+		cy.get('.myt-interior-dialog').find('button').contains('Confirm').click()
+		cy.wait('@copy').its('response.statusCode').should('eq', 200)
+	}
+
+	static deleteDuplicatedApp() {
+		cy.get('.myt-AppChooserGridRow')
+			.eq(2)
+			.find('.myt-GridCell')
+			.first()
+			.invoke('text')
+			.then(($name) => {
+				cy.get('.myt-GridCell').contains(`${$name}_copy`).first().click()
+				cy.get('.myt-RootPanel').eq(2).find('.myt-footerbar').find('button').contains('Delete').click()
+				cy.intercept('POST', '**/admin/data/app/delete?**').as('delete')
+				cy.get('.myt-interior-dialog').find('button').contains('Delete').click()
+				cy.wait('@delete').its('response.statusCode').should('eq', 200)
+			})
 	}
 }
 

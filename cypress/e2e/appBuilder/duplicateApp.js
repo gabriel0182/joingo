@@ -1,6 +1,6 @@
-import appBuilder from '../../support/pageObject/appBuilder'
 import login from '../../support/pageObject/login'
 import message from '../../support/pageObject/message'
+import appBuilder from '../../support/pageObject/appBuilder'
 
 describe('My Login application', () => {
 	before(() => {
@@ -11,8 +11,8 @@ describe('My Login application', () => {
 		appBuilder.goToAppBuilder()
 	})
 
-	it('I select an app from the list and add a new Scene', () => {
-		appBuilder.AddNewScene()
-		appBuilder.deleteScene()
+	it('I select the first app and duplicate it', () => {
+		appBuilder.duplicateApp()
+		appBuilder.deleteDuplicatedApp()
 	})
 })
