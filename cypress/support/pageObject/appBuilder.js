@@ -1,5 +1,6 @@
 let name
 let sceneName
+let localeName
 
 class appBuilder {
 	static goToAppBuilder() {
@@ -256,6 +257,51 @@ class appBuilder {
 				cy.intercept('POST', '**/admin/data/app/delete?**').as('delete')
 				cy.get('.myt-interior-dialog').find('button').contains('Delete').click()
 				cy.wait('@delete').its('response.statusCode').should('eq', 200)
+			})
+	}
+
+	static openLocalesPage() {
+		cy.get('.myt-RootPanel').find('button').contains('I18N').click()
+	}
+
+	static openLocalesDialog() {
+		cy.get('.myt-View').find('button').contains('Locales').click()
+	}
+
+	static addLocale(locale) {
+		localeName = locale
+		cy.get('.myt-interior-dialog').last().find('button').contains('Add').click()
+		cy.get('.myt-TextSetting').find('input').type(localeName)
+		cy.intercept('POST', '**/admin/data/localeCodes/create?**').as('create')
+		cy.get('.myt-Dialog').find('button').contains('Create').click()
+		cy.wait('@create').its('response.statusCode').should('eq', 200)
+	}
+
+	static findDeleteLocaleButton() {
+		cy.get('.myt-InfiniteGrid')
+			.find('.myt-GridCell')
+			.contains(localeName)
+			.parent('.myt-GridRow')
+			.find('.myt-SquareBtn')
+			.last()
+			.click()
+	}
+
+	static deleteLocale() {
+		cy.reload()
+		this.openLocalesPage()
+		this.openLocalesDialog()
+		cy.get('.myt-InfiniteGrid')
+			.find('.myt-GridCell')
+			.then(($cell) => {
+				if ($cell.text().includes(localeName)) {
+					this.findDeleteLocaleButton()
+					cy.intercept('POST', '**/admin/data/localeCodes/delete?**').as('delete')
+					cy.get('.myt-Dialog').find('button').contains('Delete').click()
+					cy.wait('@delete').its('response.statusCode').should('eq', 200)
+				} else {
+					cy.log('Default locale')
+				}
 			})
 	}
 }
