@@ -12,12 +12,16 @@ describe('My Login application', () => {
 	})
 
 	it('I select an active app and go to scenes table', () => {
+		appBuilder.selectSecondRow()
 		appBuilder.clickOnScenes()
 	})
 
-	it('I select an active app and go to scenes table', () => {
+	it('I open the Localization module', () => {
 		appBuilder.openLocalesPage()
 		appBuilder.openLocalesDialog()
+	})
+
+	it('I create a new locale', () => {
 		appBuilder.addLocale('en-RU')
 		appBuilder.deleteLocale()
 	})
