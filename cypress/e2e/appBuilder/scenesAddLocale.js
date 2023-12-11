@@ -12,7 +12,6 @@ describe('My Login application', () => {
 	})
 
 	it('I select an active app and go to scenes table', () => {
-		appBuilder.selectSecondRow()
 		appBuilder.clickOnScenes()
 	})
 
