@@ -1,6 +1,7 @@
 let name
 let sceneName
 let localeName
+let keyName
 
 class appBuilder {
 	static goToAppBuilder() {
@@ -314,6 +315,33 @@ class appBuilder {
 				cy.wait('@delete').its('response.statusCode').should('eq', 200)
 			}
 		})
+	}
+
+	static openAddKeyDialog() {
+		cy.get('.myt-ce-I18NDialog').find('button').contains(' Add Key').click()
+	}
+
+	static addNewKey() {
+		const date = new Date()
+		const miliSeg = date.getMilliseconds()
+		keyName = `key ${miliSeg}`
+		cy.get('.myt-interior-dialog').find('.myt-TextSetting').children('input').type(keyName)
+		cy.intercept('POST', '**/admin/data/messageFormat/create?**').as('createKey')
+		cy.get('.myt-interior-dialog').find('.myt-View').children('button').contains('Create').click()
+		cy.wait('@createKey').its('response.statusCode').should('eq', 200)
+	}
+
+	static deleteKey() {
+		cy.get('.myt-InfiniteGrid')
+			.find('.myt-GridRow')
+			.contains(keyName)
+			.parent('.myt-GridRow')
+			.find('.myt-SquareBtn')
+			.first()
+			.click()
+		cy.intercept('POST', '**/admin/data/messageFormat/delete?**').as('deleteKey')
+		cy.get('.myt-Dialog').find('button').contains('Delete').click()
+		cy.wait('@deleteKey').its('response.statusCode').should('eq', 200)
 	}
 }
 
