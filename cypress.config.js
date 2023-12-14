@@ -1,4 +1,5 @@
 const { defineConfig } = require('cypress')
+const { removeDirectory } = require('cypress-delete-downloads-folder')
 
 module.exports = defineConfig({
 	projectId: 'io3fdh',
@@ -35,5 +36,8 @@ module.exports = defineConfig({
 		specPattern: 'cypress/e2e/**/*.js',
 		baseUrl: 'https://master.joingo.com/admin/console/93/',
 		testIsolation: false,
+		setupNodeEvents(on, config) {
+			on('task', { removeDirectory })
+		},
 	},
 })

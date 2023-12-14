@@ -4,8 +4,14 @@ import message from '../../support/pageObject/message'
 
 describe('My Login application', () => {
 	before(() => {
+		cy.deleteDownloadsFolder()
 		login.login()
 	})
+
+	after(() => {
+		cy.deleteDownloadsFolder()
+	})
+
 	it('I click on App Builder', () => {
 		message.verifyCustomer('V2Mobi')
 		appBuilder.goToAppBuilder()
