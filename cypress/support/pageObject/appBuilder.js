@@ -343,6 +343,17 @@ class appBuilder {
 		cy.get('.myt-Dialog').find('button').contains('Delete').click()
 		cy.wait('@deleteKey').its('response.statusCode').should('eq', 200)
 	}
+
+	static exportKey() {
+		cy.get('.myt-ce-I18NDialog').find('button').contains('Export').click()
+		cy.get('.myt-interior-dialog').find('button').contains('Export').click()
+	}
+
+	static verifyDownloadedFile() {
+		cy.fixture('../downloads/localization-87.csv').then(($file) => {
+			expect($file).contains(keyName)
+		})
+	}
 }
 
 export default appBuilder
