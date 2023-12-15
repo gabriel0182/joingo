@@ -17,7 +17,8 @@
 			"browserstack-cypress-cli": "^1.14.1",
 			"cypress": "^12.17.3",
 			"cypress-real-events": "^1.7.1",
-			"cypress-recurse": "^1.20.0"
+			"cypress-recurse": "^1.20.0",
+			"cypress-delete-downloads-folder": "^0.0.4"
 		},
 		"package_config_options": {
 			"cypress_options": {

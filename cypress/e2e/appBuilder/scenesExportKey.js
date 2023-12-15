@@ -29,7 +29,7 @@ describe('My Login application', () => {
 	it('I create a new key', () => {
 		appBuilder.addNewKey()
 		appBuilder.exportKey()
-		appBuilder.verifyDownloadedFile()
 		appBuilder.deleteKey()
+		appBuilder.verifyDownloadedFile()
 	})
 })
