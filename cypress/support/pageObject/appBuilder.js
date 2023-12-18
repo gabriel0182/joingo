@@ -276,10 +276,10 @@ class appBuilder {
 			.then(($cell) => {
 				if ($cell.text().includes(localeName)) {
 					cy.get('.myt-interior-dialog').last().find('button').contains('Add').click()
-					cy.get('.myt-TextSetting').find('input').type('en-US')
+					cy.get('.myt-Dialog').find('input').type('en-US')
 				} else {
 					cy.get('.myt-interior-dialog').last().find('button').contains('Add').click()
-					cy.get('.myt-TextSetting').find('input').type(localeName)
+					cy.get('.myt-Dialog').find('input').type(localeName)
 				}
 				cy.intercept('POST', '**/admin/data/localeCodes/create?**').as('create')
 				cy.get('.myt-Dialog').find('button').contains('Create').click()
@@ -293,7 +293,7 @@ class appBuilder {
 			.first()
 			.find('.myt-SquareBtn')
 			.then(($btn) => {
-				if ($btn.is('enabled')) {
+				if ($btn.is(':enabled')) {
 					cy.get('.myt-InfiniteGrid').find('.myt-GridRow').first().find('.myt-SquareBtn').last().click()
 				} else {
 					cy.get('.myt-InfiniteGrid').find('.myt-GridRow').eq(1).find('.myt-SquareBtn').last().click()
@@ -325,7 +325,7 @@ class appBuilder {
 		const date = new Date()
 		const miliSeg = date.getMilliseconds()
 		keyName = `key ${miliSeg}`
-		cy.get('.myt-interior-dialog').find('.myt-TextSetting').children('input').type(keyName)
+		cy.get('.myt-interior-dialog').find('input').first().type(keyName)
 		cy.intercept('POST', '**/admin/data/messageFormat/create?**').as('createKey')
 		cy.get('.myt-interior-dialog').find('.myt-View').children('button').contains('Create').click()
 		cy.wait('@createKey').its('response.statusCode').should('eq', 200)
