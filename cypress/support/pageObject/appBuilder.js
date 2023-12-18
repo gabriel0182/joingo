@@ -294,9 +294,9 @@ class appBuilder {
 			.find('.myt-SquareBtn')
 			.then(($btn) => {
 				if ($btn.is(':enabled')) {
-					cy.get('.myt-InfiniteGrid').find('.myt-GridRow').first().find('.myt-SquareBtn').last().click()
+					cy.get('.myt-ce-I18NLocalesDialog').find('.myt-GridRow').eq(1).find('.myt-SquareBtn').last().click()
 				} else {
-					cy.get('.myt-InfiniteGrid').find('.myt-GridRow').eq(1).find('.myt-SquareBtn').last().click()
+					cy.get('.myt-ce-I18NLocalesDialog').find('.myt-GridRow').first().find('.myt-SquareBtn').last().click()
 				}
 			})
 	}
