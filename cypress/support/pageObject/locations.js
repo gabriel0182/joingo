@@ -32,5 +32,25 @@ class locations {
 		cy.get('.myt-interior-dialog').contains('Confirm').click()
 		cy.wait('@delete').its('response.statusCode').should('eq', 200)
 	}
+
+	static clickOnImport() {
+		cy.get('.myt-expandoheader').find('.myt-SquareBtn').click()
+		cy.get('.myt-expandoheader').then(($button) => {
+			if ($button.find('.fa-plus').is(':visible')) {
+				cy.get('.myt-expandoheader').find('button').contains('Import').click()
+			} else {
+				cy.get('.myt-expandoheader').find('.myt-SquareBtn').click()
+				cy.get('.myt-expandoheader').find('button').contains('Import').click()
+			}
+		})
+	}
+
+	static importLocationFile() {
+		cy.get('.myt-interior-dialog')
+			.find('input.myt-CSVBulkImporter')
+			.selectFile('cypress/fixtures/v2moLocations.csv', { force: true })
+		cy.get('.myt-ce-LocationsImportDialog').find('button').contains('Proceed').click()
+		cy.get('.myt-interior-dialog').find('button').contains('Confirm').click()
+	}
 }
 export default locations
