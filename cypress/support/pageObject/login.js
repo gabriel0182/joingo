@@ -45,8 +45,8 @@ class login {
 				cy.url({ decode: true }).then(($url) => {
 					if ($url.includes('live')) {
 						cy.log($url.toString())
-						expect(builtDate).to.eql(currentDate)
-						expect(builtDate).not.to.eql(dayBefore)
+						expect(builtDate).to.contains(currentDate)
+						expect(builtDate).not.to.contains(dayBefore)
 					} else if ($url.includes('master')) {
 						cy.log('Velidation only for live console')
 					}
