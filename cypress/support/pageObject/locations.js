@@ -68,5 +68,23 @@ class locations {
 		cy.get('.myt-interior-dialog').contains('Confirm').click()
 		cy.wait('@delete').its('response.statusCode').should('eq', 200)
 	}
+
+	static clickOnExport() {
+		cy.get('.myt-expandoheader').find('.myt-SquareBtn').click()
+		cy.get('.myt-expandoheader').then(($button) => {
+			if ($button.find('.fa-plus').is(':visible')) {
+				cy.get('.myt-expandoheader').find('button').contains('Export').click()
+			} else {
+				cy.get('.myt-expandoheader').find('.myt-SquareBtn').click()
+				cy.get('.myt-expandoheader').find('button').contains('Export').click()
+			}
+		})
+	}
+
+	static verifyDownloadedFile() {
+		cy.fixture('../downloads/v2mo Locations.csv').then(($file) => {
+			expect($file).contains(locationName)
+		})
+	}
 }
 export default locations
