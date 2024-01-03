@@ -12,5 +12,7 @@ describe('My Login application', () => {
 	it('I import a New Location', () => {
 		locations.clickOnImport()
 		locations.importLocationFile()
+		locations.successImportConfirmation()
+		locations.deleteImportedLocation()
 	})
 })

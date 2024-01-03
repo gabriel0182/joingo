@@ -49,8 +49,24 @@ class locations {
 		cy.get('.myt-interior-dialog')
 			.find('input.myt-CSVBulkImporter')
 			.selectFile('cypress/fixtures/v2moLocations.csv', { force: true })
+		cy.get('.myt-InfiniteGrid').find('.myt-BulkGridRow').last().should('be.visible')
 		cy.get('.myt-ce-LocationsImportDialog').find('button').contains('Proceed').click()
+		cy.intercept('POST', '**/admin/data/locationv2/bulkupsert?**').as('bulkupsert')
 		cy.get('.myt-interior-dialog').find('button').contains('Confirm').click()
+		cy.wait('@bulkupsert').its('response.statusCode').should('eq', 200)
+	}
+
+	static successImportConfirmation() {
+		cy.get('.myt-interior-dialog').find('.myt-Text').should('have.text', 'The locations were successfully updated.')
+		cy.get('.myt-interior-dialog').find('.dclose').first().click()
+	}
+
+	static deleteImportedLocation() {
+		cy.get('.myt-InfiniteGrid').find('.myt-ListScreenRow').children('.myt-GridCell').contains('Test Location').click()
+		cy.get('.myt-footerbar').find('button').contains('Delete').click()
+		cy.intercept('POST', '**/admin/data/locationv2/delete**').as('delete')
+		cy.get('.myt-interior-dialog').contains('Confirm').click()
+		cy.wait('@delete').its('response.statusCode').should('eq', 200)
 	}
 }
 export default locations
