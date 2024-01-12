@@ -269,6 +269,21 @@ class appBuilder {
 		cy.get('.myt-View').find('button').contains('Locales').click()
 	}
 
+	static checkEmptyLocalesGrid(locale) {
+		localeName = locale
+		cy.get('.myt-InfiniteGrid').then(($grid) => {
+			if ($grid.find('.myt-GridCell').length > 0) {
+				this.addLocale(locale)
+			} else if ($grid.find('.myt-GridCell').length === 0) {
+				cy.get('.myt-interior-dialog').last().find('button').contains('Add').click()
+				cy.get('.myt-Dialog').find('input').type(localeName)
+				cy.intercept('POST', '**/admin/data/localeCodes/create?**').as('create')
+				cy.get('.myt-Dialog').find('button').contains('Create').click()
+				cy.wait('@create').its('response.statusCode').should('eq', 200)
+			}
+		})
+	}
+
 	static addLocale(locale) {
 		localeName = locale
 		cy.get('.myt-InfiniteGrid')
@@ -294,7 +309,7 @@ class appBuilder {
 			.find('.myt-SquareBtn')
 			.then(($btn) => {
 				if ($btn.is(':enabled')) {
-					cy.get('.myt-ce-I18NLocalesDialog').find('.myt-GridRow').eq(1).find('.myt-SquareBtn').last().click()
+					cy.get('.myt-ce-I18NLocalesDialog').find('.myt-GridRow').eq(0).find('.myt-SquareBtn').last().click()
 				} else {
 					cy.get('.myt-ce-I18NLocalesDialog').find('.myt-GridRow').first().find('.myt-SquareBtn').last().click()
 				}
@@ -302,10 +317,8 @@ class appBuilder {
 	}
 
 	static deleteLocale() {
-		cy.reload()
-		this.openLocalesPage()
-		this.openLocalesDialog()
-		cy.get('.myt-InfiniteGrid').then(($body) => {
+		cy.get('.myt-interior-dialog').find('.myt-GridCell').contains(localeName).should('be.visible', { timeout: 5000 })
+		cy.get('.myt-interior-dialog').then(($body) => {
 			if ($body.find('.myt-GridRow').length === 1) {
 				cy.log('Default locale')
 			} else if ($body.find('.myt-GridRow').length > 1) {

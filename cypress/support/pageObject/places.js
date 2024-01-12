@@ -25,7 +25,7 @@ class places {
 	}
 
 	static saveCircularGeofence() {
-		cy.intercept('POST', '**/admin/data/mapobjects/*').as('update')
+		cy.intercept('POST', '**/admin/data/mapobjects/**').as('update')
 		cy.get('button').contains('Save Circular Geofence').click()
 		cy.wait('@update', { timeout: 10000 }).its('response.statusCode').should('eq', 200)
 	}

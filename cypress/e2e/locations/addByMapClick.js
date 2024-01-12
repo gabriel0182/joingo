@@ -3,24 +3,19 @@ import locations from '../../support/pageObject/locations'
 
 describe('My Login application', () => {
 	before(() => {
-		cy.deleteDownloadsFolder()
 		login.login()
-	})
-
-	after(() => {
-		cy.deleteDownloadsFolder()
 	})
 	it('I click on Add New Location', () => {
 		locations.goLocations()
 	})
 
-	it('I add a New Location', () => {
-		locations.addNewLocation()
-		locations.checkMapLoads()
+	it('I click on Add By Map', () => {
+		locations.clickOnAddByMap()
 	})
-	it('I Export the new location', () => {
-		locations.clickOnExport()
+
+	it('I Add a new location', () => {
+		locations.searchLocation()
+		locations.addNewMapLocation()
 		locations.deleteNewLocation()
-		locations.verifyDownloadedFile()
 	})
 })

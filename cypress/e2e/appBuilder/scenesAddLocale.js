@@ -21,7 +21,7 @@ describe('My Login application', () => {
 	})
 
 	it('I create a new locale', () => {
-		appBuilder.addLocale('en-RU')
+		appBuilder.checkEmptyLocalesGrid('en-RU')
 		appBuilder.deleteLocale()
 	})
 })

@@ -58,7 +58,8 @@ class locations {
 
 	static successImportConfirmation() {
 		cy.get('.myt-interior-dialog').find('.myt-Text').should('have.text', 'The locations were successfully updated.')
-		cy.get('.myt-interior-dialog').find('.dclose').first().click()
+		//cy.get('.myt-interior-dialog').find('.dclose').first().click()
+		cy.reload()
 	}
 
 	static deleteImportedLocation() {
@@ -82,9 +83,29 @@ class locations {
 	}
 
 	static verifyDownloadedFile() {
+		cy.fixture('../downloads/v2mo Locations.csv').should('exist', { timeout: 5000 })
 		cy.fixture('../downloads/v2mo Locations.csv').then(($file) => {
 			expect($file).contains(locationName)
 		})
+	}
+
+	static clickOnAddByMap() {
+		cy.get('.myt-RootPanel').find('button').contains('Add By Map Click').click()
+	}
+
+	static searchLocation() {
+		cy.get('[aria-label="Map"]').click()
+	}
+
+	static addNewMapLocation() {
+		const today = new Date()
+		const mil = today.getMilliseconds()
+		locationName = `test${mil}`
+		cy.get('input[placeholder="Enter Location Name"]').type(locationName)
+		cy.get('input[placeholder="Enter Location ID"]').type(mil)
+		cy.intercept('POST', '**/admin/data/locationv2/upsert?**').as('locationv2')
+		cy.get('.myt-interior-dialog').find('button').contains('Create').click()
+		cy.wait('@locationv2').its('response.statusCode').should('eq', 200)
 	}
 }
 export default locations

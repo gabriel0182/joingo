@@ -111,7 +111,7 @@ class message {
 			.eq(1)
 			.invoke('text')
 			.then(($text) => {
-				title = `Copy of ${$text}`
+				title = `${$text}`
 				this.validateCreatedDraft()
 				this.deleteDraft()
 			})
