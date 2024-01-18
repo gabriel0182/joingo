@@ -107,5 +107,33 @@ class locations {
 		cy.get('.myt-interior-dialog').find('button').contains('Create').click()
 		cy.wait('@locationv2').its('response.statusCode').should('eq', 200)
 	}
+
+	static duplicateLocation() {
+		const today = new Date()
+		const mil = today.getMilliseconds()
+		const newLocation = locationName
+		const duplicateName = `${locationName}${mil}`
+		cy.get('.myt-InfiniteGrid').find('.myt-ListScreenRow').children('.myt-GridCell').contains(newLocation).click()
+		cy.get('.myt-footerbar').find('button').contains('Duplicate').click()
+		cy.get('input[placeholder="Enter Location Name"]').clear()
+		cy.get('input[placeholder="Enter Location Name"]').type(duplicateName)
+		cy.get('input[placeholder="Enter Location ID"]').clear()
+		cy.get('input[placeholder="Enter Location ID"]').type(mil)
+		cy.intercept('POST', '**/admin/data/locationv2/upsert?**').as('locationv2')
+		cy.get('.myt-interior-dialog').find('button').contains('Create').click()
+		cy.wait('@locationv2').its('response.statusCode').should('eq', 200)
+	}
+	static cleanLocations() {
+		cy.reload()
+		cy.get('.myt-InfiniteGrid')
+			.find('.myt-ListScreenRow')
+			.each(($element, $index) => {
+				cy.wrap($element, $index).first().click({ force: true })
+				cy.get('.myt-footerbar').find('button').contains('Delete').click()
+				cy.intercept('POST', '**/admin/data/locationv2/delete**').as('delete')
+				cy.get('.myt-interior-dialog').contains('Confirm').click()
+				cy.wait('@delete').its('response.statusCode').should('eq', 200)
+			})
+	}
 }
 export default locations
