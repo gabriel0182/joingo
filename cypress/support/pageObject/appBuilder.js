@@ -107,7 +107,7 @@ class appBuilder {
 		cy.get('.myt-expandoheader')
 			.last()
 			.children('.myt-Text')
-			.should('have.text', `Scenes for "${name}" - showing all 2 `)
+			.should('have.text', `Scenes for "${name}" - showing all 2 rows`)
 	}
 
 	static backToAppChooser() {
